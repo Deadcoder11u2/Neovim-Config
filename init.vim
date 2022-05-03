@@ -130,7 +130,7 @@ let g:vscode_transparency = 1
 let g:vscode_italic_comment = 1
 " Disable nvim-tree background color
 " let g:vscode_disable_nvimtree_bg = v:true
-colorscheme vscode
+colorscheme monokai_ristretto
 
 
 " Enable True Color Support (ensure you're using a 256-color enabled $TERM, e.g. xterm-256color)
@@ -236,7 +236,6 @@ let g:limelight_conceal_guifg = 'gray'
 
 autocmd VimEnter *
             \   if !argc()
-            \ |   NERDTree
             \ |   wincmd w
             \ | endif
 
