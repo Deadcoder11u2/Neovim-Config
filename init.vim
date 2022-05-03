@@ -1,4 +1,4 @@
-""" Optixal's Neovim Init.vim
+""" Srikanth's Neovim config file
 
 """ Vim-Plug
 call plug#begin()
@@ -12,19 +12,9 @@ Plug 'goolord/alpha-nvim'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 " packer install
-Plug 'wbthomason/packer.nvim'
-Plug 'junegunn/seoul256.vim'
 Plug 'junegunn/vim-journal'
 Plug 'junegunn/rainbow_parentheses.vim'
-Plug 'nightsense/forgotten'
-Plug 'zaki/zazen'
 Plug 'Deadcoder11u2/monokai.nvim'
-" Aethetics - Additional
-Plug 'nightsense/nemo'
-Plug 'yuttie/hydrangea-vim'
-Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim' }
-Plug 'rhysd/vim-color-spring-night'
-
 " Functionalities
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sensible'
@@ -41,8 +31,6 @@ Plug 'junegunn/vim-easy-align'
 Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-abolish'
 Plug 'Yggdroot/indentLine'
-" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-" Plug 'junegunn/fzf.vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'chrisbra/Colorizer'
 Plug 'KabbAmine/vCoolor.vim'
@@ -405,7 +393,7 @@ autocmd FileType python nmap <leader>x :0 , $!~/.config/nvim/env/bin/python -m y
 nmap <silent> <leader><leader> :noh<CR>
 nmap <Tab> :bnext<CR>
 nmap <S-Tab> :bprevious<CR>
-
+nmap <leader>c :bdelete!<CR>
 nmap <C-BS> <C-w>
 nmap <C-h> <C-w>
 
@@ -499,6 +487,8 @@ lua << EOF
     end
 
     vim.api.nvim_set_keymap("n", "<c-\\>", "<cmd>lua _POWERSHELL_TOGGLE()<CR>", {noremap = true, silent = true})
+
+
     local status_ok, alpha = pcall(require, "alpha")
     local dashboard = require("alpha.themes.dashboard")
     dashboard.section.header.val = {
@@ -519,7 +509,7 @@ lua << EOF
     	dashboard.button("q", "  Quit Neovim", ":qa<CR>"),
     }
     local function footer()
-    	return "chrisatmachine.com"
+    	return "Do The Simplest Thing That Could Possibly Work"
     end
     dashboard.section.footer.val = footer()
     dashboard.section.footer.opts.hl = "Type"
