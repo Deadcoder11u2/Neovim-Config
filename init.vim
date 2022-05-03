@@ -204,36 +204,6 @@ let $BAT_THEME='base16'
 " Limelight
 let g:limelight_conceal_ctermfg = 'gray'
 let g:limelight_conceal_guifg = 'gray'
-
-" Startify
-
-"let g:startify_fortune_use_unicode = 1
-
-" use {
-"     'goolord/alpha-nvim',
-"     requires = { 'kyazdani42/nvim-web-devicons' },
-"     config = function ()
-"         require'alpha'.setup(require'alpha.themes.startify'.config)
-"     end
-" }
-
-" Startify + NERDTree on start when no file is specified
-" let g:startify_custom_header = [
-"     \ '    ___       ___       ___       ___       ___       ___    ',
-"     \ '   /\__\     /\  \     /\  \     /\__\     /\  \     /\__\   ',
-"     \ '  /:| _|_   /::\  \   /::\  \   /:/ _/_   _\:\  \   /::L_L_  ',
-"     \ ' /::|/\__\ /::\:\__\ /:/\:\__\ |::L/\__\ /\/::\__\ /:/L:\__\ ',
-"     \ ' \/|::/  / \:\:\/  / \:\/:/  / |::::/  / \::/\/__/ \/_/:/  / ',
-"     \ '   |:/  /   \:\/  /   \::/  /   L;;/__/   \:\__\     /:/  /  ',
-"     \ '   \/__/     \/__/     \/__/               \/__/     \/__/   ',]
-
-" let g:startify_lists = [
-"             \ { 'header': ['   Bookmarks'],       'type': 'bookmarks' },
-"             \ { 'header': ['   MRU'],            'type': 'files' },
-"             \ { 'header': ['   MRU '. getcwd()], 'type': 'dir' },
-"             \ ]
-
-
 autocmd VimEnter *
             \   if !argc()
             \ |   wincmd w
