@@ -66,17 +66,17 @@ Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
 Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
 
 " Alpha Vim
-" Plug 'goolord/alpha-nvim'
+Plug 'goolord/alpha-nvim'
 Plug 'liuchengxu/vim-clap'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'glepnir/dashboard-nvim'
+" Plug 'glepnir/dashboard-nvim'
 
 " Toggle Terminal
 Plug 'akinsho/toggleterm.nvim'
 call plug#end()
 
-let g:dashboard_default_executive ='telescope'
+" let g:dashboard_default_executive ='telescope'
 
 
 """ Main Configurations
@@ -130,7 +130,7 @@ let g:vscode_transparency = 1
 let g:vscode_italic_comment = 1
 " Disable nvim-tree background color
 " let g:vscode_disable_nvimtree_bg = v:true
-colorscheme monokai_ristretto
+colorscheme monokai_soda
 
 
 " Enable True Color Support (ensure you're using a 256-color enabled $TERM, e.g. xterm-256color)
@@ -499,4 +499,33 @@ lua << EOF
     end
 
     vim.api.nvim_set_keymap("n", "<c-\\>", "<cmd>lua _POWERSHELL_TOGGLE()<CR>", {noremap = true, silent = true})
+    local status_ok, alpha = pcall(require, "alpha")
+    local dashboard = require("alpha.themes.dashboard")
+    dashboard.section.header.val = {
+    	[[                               __                ]],
+    	[[  ___     ___    ___   __  __ /\_\    ___ ___    ]],
+    	[[ / _ `\  / __`\ / __`\/\ \/\ \\/\ \  / __` __`\  ]],
+    	[[/\ \/\ \/\  __//\ \_\ \ \ \_/ |\ \ \/\ \/\ \/\ \ ]],
+    	[[\ \_\ \_\ \____\ \____/\ \___/  \ \_\ \_\ \_\ \_\]],
+    	[[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
+    }
+    dashboard.section.buttons.val = {
+    	dashboard.button("f", "  Find file", ":Telescope find_files <CR>"),
+    	dashboard.button("e", "  New file", ":ene <BAR> startinsert <CR>"),
+    	dashboard.button("p", "  Find project", ":Telescope projects <CR>"),
+    	dashboard.button("r", "  Recently used files", ":Telescope oldfiles <CR>"),
+    	dashboard.button("t", "  Find text", ":Telescope live_grep <CR>"),
+    	dashboard.button("c", "  Configuration", ":e C:/Users/Dell/AppData/Local/nvim/init.vim <CR>"),
+    	dashboard.button("q", "  Quit Neovim", ":qa<CR>"),
+    }
+    local function footer()
+    	return "chrisatmachine.com"
+    end
+    dashboard.section.footer.val = footer()
+    dashboard.section.footer.opts.hl = "Type"
+    dashboard.section.header.opts.hl = "Include"
+    dashboard.section.buttons.opts.hl = "Keyword"
+    dashboard.opts.opts.noautocmd = true
+    alpha.setup(dashboard.opts)
+
 EOF
