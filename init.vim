@@ -24,7 +24,6 @@ Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'ryanoasis/vim-devicons'
 Plug 'scrooloose/nerdcommenter'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'mhinz/vim-signify'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/vim-easy-align'
@@ -40,7 +39,7 @@ Plug 'metakirby5/codi.vim'
 Plug 'dkarter/bullets.vim'
 Plug 'psliwka/vim-smoothie'
 Plug 'antoinemadec/FixCursorHold.nvim'
-Plug 'wellle/context.vim'
+" Plug 'wellle/context.vim'
 
 " Entertainment
 Plug 'dansomething/vim-hackernews'
@@ -62,6 +61,13 @@ Plug 'nvim-telescope/telescope.nvim'
 
 " Toggle Terminal
 Plug 'akinsho/toggleterm.nvim'
+Plug 'marko-cerovac/material.nvim'
+Plug 'mfussenegger/nvim-jdtls'
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-compe'
+Plug 'ThePrimeagen/harpoon'
+
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 call plug#end()
 
 " let g:dashboard_default_executive ='telescope'
@@ -118,7 +124,8 @@ let g:vscode_transparency = 1
 let g:vscode_italic_comment = 1
 " Disable nvim-tree background color
 " let g:vscode_disable_nvimtree_bg = v:true
-colorscheme monokai_soda
+let g:material_style="darker"
+colorscheme material
 
 
 " Enable True Color Support (ensure you're using a 256-color enabled $TERM, e.g. xterm-256color)
@@ -199,12 +206,6 @@ autocmd VimEnter *
 
 
 
-" coc.vim START
-augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
-augroup end
-
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
 set updatetime=300
@@ -221,76 +222,7 @@ else
     set signcolumn=yes
 endif
 
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-            \ pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
 " Use <c-space> to trigger completion.
-if has('nvim')
-    inoremap <silent><expr> <c-space> coc#refresh()
-else
-    inoremap <silent><expr> <c-@> coc#refresh()
-endif
-
-" Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-            \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-" Use `[g` and `]g` to navigate diagnostics
-" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-        execute 'h '.expand('<cword>')
-    elseif (coc#rpc#ready())
-        call CocActionAsync('doHover')
-    else
-        execute '!' . &keywordprg . " " . expand('<cword>')
-    endif
-endfunction
-
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
-
-" Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-
-augroup mygroup
-    autocmd!
-    " Setup formatexpr specified filetype(s).
-    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-    " Update signature help on jump placeholder.
-    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
-
-" coc.vim END
-
 " signify
 let g:signify_sign_add = '│'
 let g:signify_sign_delete = '│'
@@ -369,26 +301,17 @@ nmap <leader>w :TagbarToggle<CR>
 nmap \| <leader>w
 nmap <leader>ee :Colors<CR>
 nmap <leader>ea :AirlineTheme
-nmap <leader>e1 :call ColorDracula()<CR>
-nmap <leader>e2 :call ColorSeoul256()<CR>
-nmap <leader>e3 :call ColorForgotten()<CR>
-nmap <leader>e4 :call ColorZazen()<CR>
-nmap <leader>e5 :call ColorVscode()<CR>
 nmap <leader>r :so ~/.config/nvim/init.vim<CR>
 nmap <leader>t :call TrimWhitespace()<CR>
-nmap <leader>y <C-w>v<C-w>l:HackerNews best<CR>J
 nmap <leader>p <Plug>(pydocstring)
 xmap <leader>a gaip*
 nmap <leader>a gaip*
 nmap <leader>s :Rg<CR>
-nmap <leader>d :Telescope find_files<CR>
-nmap <leader>f :BLines<CR>
-nmap <leader>g :Goyo<CR>
+nmap <leader>f :Telescope find_files<CR>
 nmap <leader>h :RainbowParentheses!!<CR>
 nmap <leader>j :set filetype=journal<CR>
-nmap <leader>k :ColorToggle<CR>
 nmap <leader>l :Limelight!!<CR>
-nmap <leader>l :Limelight!!<CR>
+nnoremap <leader>mm :lua require('material.functions').toggle_style()<CR>
 autocmd FileType python nmap <leader>x :0 , $!~/.config/nvim/env/bin/python -m yapf<CR>
 nmap <silent> <leader><leader> :noh<CR>
 nmap <Tab> :bnext<CR>
@@ -397,54 +320,74 @@ nmap <leader>c :bdelete!<CR>
 nmap <C-BS> <C-w>
 nmap <C-h> <C-w>
 
+" nnoremap <A-]> <Cmd><lua require("harpoon.mark").add_file()<CR>
+" nnoremap gl <Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
+nnoremap <leader>g <Cmd>Telescope harpoon marks<CR>
+nnoremap <leader>d <Cmd>lua require("harpoon.mark").add_file()<CR>
+nnoremap <A-o> <Cmd>lua require'jdtls'.organize_imports()<CR>
+nnoremap crv <Cmd>lua require('jdtls').extract_variable()<CR>
+vnoremap crv <Esc><Cmd>lua require('jdtls').extract_variable(true)<CR>
+nnoremap crc <Cmd>lua require('jdtls').extract_constant()<CR>
+vnoremap crc <Esc><Cmd>lua require('jdtls').extract_constant(true)<CR>
+vnoremap crm <Esc><Cmd>lua require('jdtls').extract_method(true)<CR>
+nnoremap gl <Cmd>lua vim.diagnostic.open_float()<CR>
+
 set termguicolors
 lua << EOF
-    require("bufferline").setup{}
-    local status_ok, telescope = pcall(require, "telescope")
-    local actions = require "telescope.actions"
-    telescope.setup {
-        defaults = {
-            prompt_prefix = " ",
-            selection_caret = " ",
-            path_display = { "smart" },
+
+require "user.options"
+require "user.keymaps"
+require "user.plugins"
+require "user.cmp"
+require "user.lsp"
+
+require("bufferline").setup{}
+local status_ok, telescope = pcall(require, "telescope")
+local actions = require "telescope.actions"
+require'lspconfig'.jdtls.setup{}
+telescope.setup {
+    defaults = {
+        prompt_prefix = " ",
+        selection_caret = " ",
+        path_display = { "smart" },
         }
     }
-    local status_ok, toggleterm = pcall(require, "toggleterm")
-    if not status_ok then
-    	return
+local status_ok, toggleterm = pcall(require, "toggleterm")
+if not status_ok then
+    return
     end
 
     toggleterm.setup({
-    	size = 20,
-    	open_mapping = [[<c-m>]],
-    	hide_numbers = true,
-    	shade_filetypes = {},
-    	shade_terminals = true,
-    	shading_factor = 2,
-    	start_in_insert = true,
-    	insert_mappings = true,
-    	persist_size = true,
-    	direction = "float",
-    	close_on_exit = true,
-    	shell = vim.o.shell,
-    	float_opts = {
-    		border = "curved",
-    		winblend = 0,
-    		highlights = {
-    			border = "Normal",
-    			background = "Normal",
-    		},
-    	},
+    size = 20,
+    open_mapping = [[<c-m>]],
+    hide_numbers = true,
+    shade_filetypes = {},
+    shade_terminals = true,
+    shading_factor = 2,
+    start_in_insert = true,
+    insert_mappings = true,
+    persist_size = true,
+    direction = "float",
+    close_on_exit = true,
+    shell = vim.o.shell,
+    float_opts = {
+        border = "curved",
+        winblend = 0,
+        highlights = {
+            border = "Normal",
+            background = "Normal",
+            },
+        },
     })
 
-    function _G.set_terminal_keymaps()
-      local opts = {noremap = true}
-      vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
-      vim.api.nvim_buf_set_keymap(0, 't', 'jk', [[<C-\><C-n>]], opts)
-      vim.api.nvim_buf_set_keymap(0, 't', '<C-h>', [[<C-\><C-n><C-W>h]], opts)
-      vim.api.nvim_buf_set_keymap(0, 't', '<C-j>', [[<C-\><C-n><C-W>j]], opts)
-      vim.api.nvim_buf_set_keymap(0, 't', '<C-k>', [[<C-\><C-n><C-W>k]], opts)
-      vim.api.nvim_buf_set_keymap(0, 't', '<C-l>', [[<C-\><C-n><C-W>l]], opts)
+function _G.set_terminal_keymaps()
+    local opts = {noremap = true}
+    vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
+    vim.api.nvim_buf_set_keymap(0, 't', 'jk', [[<C-\><C-n>]], opts)
+    vim.api.nvim_buf_set_keymap(0, 't', '<C-h>', [[<C-\><C-n><C-W>h]], opts)
+    vim.api.nvim_buf_set_keymap(0, 't', '<C-j>', [[<C-\><C-n><C-W>j]], opts)
+    vim.api.nvim_buf_set_keymap(0, 't', '<C-k>', [[<C-\><C-n><C-W>k]], opts)
+    vim.api.nvim_buf_set_keymap(0, 't', '<C-l>', [[<C-\><C-n><C-W>l]], opts)
     end
 
     vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
@@ -453,69 +396,80 @@ lua << EOF
     local lazygit = Terminal:new({ cmd = "lazygit", hidden = true })
 
     function _LAZYGIT_TOGGLE()
-    	lazygit:toggle()
-    end
+        lazygit:toggle()
+        end
 
-    vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _LAZYGIT_TOGGLE()<CR>", {noremap = true, silent = true})
+        vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _LAZYGIT_TOGGLE()<CR>", {noremap = true, silent = true})
 
-    local node = Terminal:new({ cmd = "node", hidden = true })
-    function _NODE_TOGGLE()
-    	node:toggle()
-    end
+        local node = Terminal:new({ cmd = "node", hidden = true })
+        function _NODE_TOGGLE()
+            node:toggle()
+        end
 
-    local ncdu = Terminal:new({ cmd = "ncdu", hidden = true })
+        local ncdu = Terminal:new({ cmd = "ncdu", hidden = true })
 
-    function _NCDU_TOGGLE()
-    	ncdu:toggle()
-    end
+        function _NCDU_TOGGLE()
+            ncdu:toggle()
+        end
 
-    local htop = Terminal:new({ cmd = "htop", hidden = true })
+        local htop = Terminal:new({ cmd = "htop", hidden = true })
 
-    function _HTOP_TOGGLE()
-    	htop:toggle()
-    end
+        function _HTOP_TOGGLE()
+            htop:toggle()
+        end
 
-    local python = Terminal:new({ cmd = "python", hidden = true })
+        local python = Terminal:new({ cmd = "python", hidden = true })
 
-    function _PYTHON_TOGGLE()
-    	python:toggle()
-    end
+        function _PYTHON_TOGGLE()
+            python:toggle()
+        end
 
-    local powershell = Terminal:new({ cmd = "powershell", hidden = true })
-    function _POWERSHELL_TOGGLE()
-        powershell:toggle()
-    end
+        local powershell = Terminal:new({ cmd = "powershell", hidden = true })
+        function _POWERSHELL_TOGGLE()
+            powershell:toggle()
+        end
 
-    vim.api.nvim_set_keymap("n", "<c-\\>", "<cmd>lua _POWERSHELL_TOGGLE()<CR>", {noremap = true, silent = true})
+        vim.api.nvim_set_keymap("n", "<c-\\>", "<cmd>lua _POWERSHELL_TOGGLE()<CR>", {noremap = true, silent = true})
 
 
-    local status_ok, alpha = pcall(require, "alpha")
-    local dashboard = require("alpha.themes.dashboard")
-    dashboard.section.header.val = {
-    	[[                               __                ]],
-    	[[  ___     ___    ___   __  __ /\_\    ___ ___    ]],
-    	[[ / _ `\  / __`\ / __`\/\ \/\ \\/\ \  / __` __`\  ]],
-    	[[/\ \/\ \/\  __//\ \_\ \ \ \_/ |\ \ \/\ \/\ \/\ \ ]],
-    	[[\ \_\ \_\ \____\ \____/\ \___/  \ \_\ \_\ \_\ \_\]],
-    	[[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
-    }
-    dashboard.section.buttons.val = {
-    	dashboard.button("f", "  Find file", ":Telescope find_files <CR>"),
-    	dashboard.button("e", "  New file", ":ene <BAR> startinsert <CR>"),
-    	dashboard.button("p", "  Find project", ":Telescope projects <CR>"),
-    	dashboard.button("r", "  Recently used files", ":Telescope oldfiles <CR>"),
-    	dashboard.button("t", "  Find text", ":Telescope live_grep <CR>"),
-    	dashboard.button("c", "  Configuration", ":e C:/Users/Dell/AppData/Local/nvim/init.vim <CR>"),
-    	dashboard.button("q", "  Quit Neovim", ":qa<CR>"),
-    }
-    local function footer()
-    	return "Do The Simplest Thing That Could Possibly Work"
-    end
-    dashboard.section.footer.val = footer()
-    dashboard.section.footer.opts.hl = "Type"
-    dashboard.section.header.opts.hl = "Include"
-    dashboard.section.buttons.opts.hl = "Keyword"
-    dashboard.opts.opts.noautocmd = true
-    alpha.setup(dashboard.opts)
+        local status_ok, alpha = pcall(require, "alpha")
+        local dashboard = require("alpha.themes.dashboard")
+        dashboard.section.header.val = {
+            [[                               __                ]],
+            [[  ___     ___    ___   __  __ /\_\    ___ ___    ]],
+            [[ / _ `\  / __`\ / __`\/\ \/\ \\/\ \  / __` __`\  ]],
+            [[/\ \/\ \/\  __//\ \_\ \ \ \_/ |\ \ \/\ \/\ \/\ \ ]],
+            [[\ \_\ \_\ \____\ \____/\ \___/  \ \_\ \_\ \_\ \_\]],
+            [[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
+            }
+        dashboard.section.buttons.val = {
+            dashboard.button("f", "  Find file", ":Telescope find_files <CR>"),
+            dashboard.button("e", "  New file", ":ene <BAR> startinsert <CR>"),
+            dashboard.button("p", "  Find project", ":Telescope projects <CR>"),
+            dashboard.button("r", "  Recently used files", ":Telescope oldfiles <CR>"),
+            dashboard.button("t", "  Find text", ":Telescope live_grep <CR>"),
+            dashboard.button("c", "  Configuration", ":e C:/Users/Dell/AppData/Local/nvim/init.vim <CR>"),
+            dashboard.button("q", "  Quit Neovim", ":qa<CR>"),
+            }
+        local function footer()
+        return "Do The Simplest Thing That Could Possibly Work"
+        end
+        dashboard.section.footer.val = footer()
+        dashboard.section.footer.opts.hl = "Type"
+        dashboard.section.header.opts.hl = "Include"
+        dashboard.section.buttons.opts.hl = "Keyword"
+        dashboard.opts.opts.noautocmd = true
+        alpha.setup(dashboard.opts)
+        local last_echo = { false, -1, -1 }
 
+        require'nvim-treesitter.configs'.setup {
+            ensure_installed = { "c" },
+            sync_install = false,
+            ignore_install = { "javascript" },
+            highlight = {
+                enable = true,
+                additional_vim_regex_highlighting = false,
+                },
+            }
+        require("telescope").load_extension('harpoon')
 EOF
