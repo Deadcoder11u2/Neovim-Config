@@ -1,32 +1,22 @@
-""" Srikanth's Neovim config file
+"" Srikanth's Neovim config file
 
 """ Vim-Plug
 call plug#begin()
 " Aesthetics - Main
-Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'bryanmylee/vim-colorscheme-icons'
 " Plug 'mhinz/vim-startify'
 Plug 'goolord/alpha-nvim'
-Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 " packer install
-Plug 'junegunn/vim-journal'
 Plug 'junegunn/rainbow_parentheses.vim'
-Plug 'Deadcoder11u2/monokai.nvim'
 " Functionalities
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 Plug 'majutsushi/tagbar'
-Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'ryanoasis/vim-devicons'
-Plug 'scrooloose/nerdcommenter'
 Plug 'mhinz/vim-signify'
 Plug 'jiangmiao/auto-pairs'
-Plug 'junegunn/vim-easy-align'
 Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-abolish'
 Plug 'Yggdroot/indentLine'
@@ -39,38 +29,33 @@ Plug 'metakirby5/codi.vim'
 Plug 'dkarter/bullets.vim'
 Plug 'psliwka/vim-smoothie'
 Plug 'antoinemadec/FixCursorHold.nvim'
-" Plug 'wellle/context.vim'
-
-" Entertainment
-Plug 'dansomething/vim-hackernews'
-
-" Vscode Theme
-Plug 'Mofiqul/vscode.nvim'
-
-" BufferLine
 Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
-" Plug 'ryanoasis/vim-devicons' Icons without colours
 Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
 
-" Alpha Vim
 Plug 'goolord/alpha-nvim'
 Plug 'liuchengxu/vim-clap'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-" Plug 'glepnir/dashboard-nvim'
 
-" Toggle Terminal
 Plug 'akinsho/toggleterm.nvim'
 Plug 'marko-cerovac/material.nvim'
 Plug 'mfussenegger/nvim-jdtls'
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-compe'
 Plug 'ThePrimeagen/harpoon'
-
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'preservim/nerdtree'
+Plug 'ryanoasis/vim-devicons'
+Plug 'nvim-lualine/lualine.nvim'
+" If you want to have icons in your statusline choose one of these
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'Shatur/neovim-session-manager'
+Plug 'nvim-telescope/telescope-ui-select.nvim'
+Plug 'ellisonleao/gruvbox.nvim'
+Plug 'sainnhe/gruvbox-material'
+Plug 'hkupty/nvimux'
 call plug#end()
 
-" let g:dashboard_default_executive ='telescope'
 
 
 """ Main Configurations
@@ -88,55 +73,17 @@ set hidden
 set number
 set title
 
-""" Coloring
-
-" Functions and autocmds to run whenever changing colorschemes
-function! TransparentBackground()
-    highlight Normal guibg=NONE ctermbg=NONE
-    highlight LineNr guibg=NONE ctermbg=NONE
-    set fillchars+=vert:\│
-    highlight VertSplit gui=NONE guibg=NONE guifg=#444444 cterm=NONE ctermbg=NONE ctermfg=gray
-endfunction
-
-function! DraculaPMenu()
-    highlight Pmenu guibg=#363948
-    highlight PmenuSbar guibg=#363948
-endfunction
-
-augroup MyColors
-    autocmd!
-    autocmd ColorScheme dracula call DraculaPMenu()
-    "autocmd ColorScheme * call TransparentBackground() " uncomment if you are using a translucent terminal and you want nvim to use that
-augroup END
-
 " Main Coloring Configurations
 syntax on
-" colorscheme monokai_soda
-
-" Vim-Script:
-" For dark theme
-let g:vscode_style = "dark"
-" For light theme
-" let g:vscode_style = "light"
-" Enable transparent background
-let g:vscode_transparency = 1
-" Enable italic comment
-let g:vscode_italic_comment = 1
-" Disable nvim-tree background color
 " let g:vscode_disable_nvimtree_bg = v:true
 let g:material_style="darker"
-colorscheme material
-
+colorscheme gruvbox-material
+set background=dark
 
 " Enable True Color Support (ensure you're using a 256-color enabled $TERM, e.g. xterm-256color)
 set termguicolors
 
 """ Plugin Configurations
-
-" NERDTree
-let NERDTreeShowHidden=1
-" Exit Vim if NERDTree is the only window left.
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 
 " Airline
 let g:airline_powerline_fonts = 1
@@ -222,80 +169,22 @@ else
     set signcolumn=yes
 endif
 
-" Use <c-space> to trigger completion.
-" signify
-let g:signify_sign_add = '│'
-let g:signify_sign_delete = '│'
-let g:signify_sign_change = '│'
-hi DiffDelete guifg=#ff5555 guibg=none
-
 " FixCursorHold for better performance
 let g:cursorhold_updatetime = 100
 
 " context.vim
 let g:context_nvim_no_redraw =1
 
-""" Filetype-Specific Configurations
-
-" HTML, XML, Jinja
-autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType css setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType xml setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType htmldjango setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType htmldjango inoremap {{ {{  }}<left><left><left>
-autocmd FileType htmldjango inoremap {% {%  %}<left><left><left>
-autocmd FileType htmldjango inoremap {# {#  #}<left><left><left>
-
-" Markdown and Journal
-autocmd FileType markdown setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType journal setlocal shiftwidth=2 tabstop=2 softtabstop=2
-
-""" Custom Functions
-
-" Trim Whitespaces
 function! TrimWhitespace()
     let l:save = winsaveview()
     %s/\\\@<!\s\+$//e
     call winrestview(l:save)
 endfunction
 
-" Dracula Mode (Dark)
-function! ColorDracula()
-    let g:airline_theme='dracula'
-    " color dracula
-endfunction
-
-" Seoul256 Mode (Dark & Light)
-function! ColorSeoul256()
-    let g:airline_theme='silver'
-    " color seoul256
-endfunction
-
-" Forgotten Mode (Light)
-function! ColorForgotten()
-    " Other light airline themes: tomorrow, silver, alduin
-    let g:airline_theme='tomorrow'
-    " Other light colors: forgotten-light, nemo-light
-    " color forgotten-light
-endfunction
-
-" Zazen Mode (Black & White)
-function! ColorZazen()
-    let g:airline_theme='minimalist'
-    " color zazen
-endfunction
-
-function! ColorVscode()
-    let g:airline_theme='google_dark'
-    " color vscode
-endfunction
-
-""" Custom Mappings
-
 let mapleader=","
 nmap <leader>$s <C-w>s<C-w>j:terminal<CR>:set nonumber<CR><S-a>
 nmap <leader>$v <C-w>v<C-w>l:terminal<CR>:set nonumber<CR><S-a>
-nmap <leader>q :NERDTreeToggle<CR>
+nmap <leader>q <Cmd>NERDTreeToggle<CR>
 nmap \\ <leader>q
 nmap <leader>w :TagbarToggle<CR>
 nmap \| <leader>w
@@ -304,12 +193,9 @@ nmap <leader>ea :AirlineTheme
 nmap <leader>r :so ~/.config/nvim/init.vim<CR>
 nmap <leader>t :call TrimWhitespace()<CR>
 nmap <leader>p <Plug>(pydocstring)
-xmap <leader>a gaip*
-nmap <leader>a gaip*
 nmap <leader>s :Rg<CR>
 nmap <leader>f :Telescope find_files<CR>
 nmap <leader>h :RainbowParentheses!!<CR>
-nmap <leader>j :set filetype=journal<CR>
 nmap <leader>l :Limelight!!<CR>
 nnoremap <leader>mm :lua require('material.functions').toggle_style()<CR>
 autocmd FileType python nmap <leader>x :0 , $!~/.config/nvim/env/bin/python -m yapf<CR>
@@ -320,17 +206,23 @@ nmap <leader>c :bdelete!<CR>
 nmap <C-BS> <C-w>
 nmap <C-h> <C-w>
 
-" nnoremap <A-]> <Cmd><lua require("harpoon.mark").add_file()<CR>
-" nnoremap gl <Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
 nnoremap <leader>g <Cmd>Telescope harpoon marks<CR>
-nnoremap <leader>d <Cmd>lua require("harpoon.mark").add_file()<CR>
+nnoremap <leader>m <Cmd>lua require("harpoon.mark").add_file()<CR>
 nnoremap <A-o> <Cmd>lua require'jdtls'.organize_imports()<CR>
 nnoremap crv <Cmd>lua require('jdtls').extract_variable()<CR>
 vnoremap crv <Esc><Cmd>lua require('jdtls').extract_variable(true)<CR>
 nnoremap crc <Cmd>lua require('jdtls').extract_constant()<CR>
 vnoremap crc <Esc><Cmd>lua require('jdtls').extract_constant(true)<CR>
 vnoremap crm <Esc><Cmd>lua require('jdtls').extract_method(true)<CR>
+
+" LSP diagnostics
 nnoremap gl <Cmd>lua vim.diagnostic.open_float()<CR>
+nnoremap gr <Cmd>lua vim.lsp.buf.references()<CR>
+nnoremap gD <Cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap gi <Cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <A-3> <Cmd>SessionManager save_current_session<CR>
+nnoremap <A-2> <Cmd>SessionManager load_session<CR>
+nnoremap <A-1> <Cmd>SessionManager delete_session<CR>
 
 set termguicolors
 lua << EOF
@@ -472,4 +364,36 @@ function _G.set_terminal_keymaps()
                 },
             }
         require("telescope").load_extension('harpoon')
+        require("nvim-tree").setup()
+
+require('lualine').setup{
+  options = {
+    theme = 'gruvbox-material',
+  },
+}
+require("telescope").load_extension("ui-select")
+local Path = require('plenary.path')
+require('session_manager').setup({
+  sessions_dir = Path:new(vim.fn.stdpath('data'), 'sessions'), -- The directory where the session files will be saved.
+  path_replacer = '__', -- The character to which the path separator will be replaced for session files.
+  colon_replacer = '++', -- The character to which the colon symbol will be replaced for session files.
+  autoload_mode = require('session_manager.config').AutoloadMode.Disabled, -- Define what to do when Neovim is started without arguments. Possible values: Disabled, CurrentDir, LastSession
+  autosave_last_session = true, -- Automatically save last session on exit and on session switch.
+  autosave_ignore_not_normal = true, -- Plugin will not save a session when no buffers are opened, or all of them aren't writable or listed.
+  autosave_ignore_filetypes = { -- All buffers of these file types will be closed before the session is saved.
+    'gitcommit',
+  }, 
+  autosave_only_in_session = false, -- Always autosaves session. If true, only autosaves after a session is active.
+  max_path_length = 80,  -- Shorten the display path if length exceeds this threshold. Use 0 if don't want to shorten the path at all.
+})
+local nvimux = require('nvimux')
+nvimux.setup{
+  config = {
+    prefix = '<C-a>',
+  },
+  bindings = {
+    {{'n', 'v', 'i', 't'}, 's', nvimux.commands.horizontal_split},
+    {{'n', 'v', 'i', 't'}, 'v', nvimux.commands.vertical_split},
+  }
+}
 EOF
