@@ -54,6 +54,7 @@ Plug 'nvim-telescope/telescope-ui-select.nvim'
 Plug 'ellisonleao/gruvbox.nvim'
 Plug 'sainnhe/gruvbox-material'
 Plug 'hkupty/nvimux'
+Plug 'tpope/vim-commentary'
 call plug#end()
 
 
@@ -77,6 +78,7 @@ set title
 syntax on
 " let g:vscode_disable_nvimtree_bg = v:true
 let g:material_style="darker"
+let g:gruvbox_material_background="hard"
 colorscheme gruvbox-material
 set background=dark
 
@@ -220,9 +222,15 @@ nnoremap gl <Cmd>lua vim.diagnostic.open_float()<CR>
 nnoremap gr <Cmd>lua vim.lsp.buf.references()<CR>
 nnoremap gD <Cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap gi <Cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <leader>o <Cmd>lua vim.lsp.buf.code_action()<CR>
 nnoremap <A-3> <Cmd>SessionManager save_current_session<CR>
 nnoremap <A-2> <Cmd>SessionManager load_session<CR>
 nnoremap <A-1> <Cmd>SessionManager delete_session<CR>
+nnoremap <C-_> <Cmd>Commentary<CR>
+
+
+xnoremap <C-_> <Cmd> Commentary<CR>
+
 
 set termguicolors
 lua << EOF
@@ -316,10 +324,16 @@ function _G.set_terminal_keymaps()
             python:toggle()
         end
 
-        local powershell = Terminal:new({ cmd = "powershell", hidden = true })
+        local powershell = Terminal:new({ cmd = "wsl -d Ubuntu", hidden = true })
         function _POWERSHELL_TOGGLE()
             powershell:toggle()
         end
+
+        local pwsh = Terminal:new({cmd = "pwsh", hidden = true})
+        function _PWSH_TOGGLE()
+          pwsh:toggle()
+        end
+
 
         vim.api.nvim_set_keymap("n", "<c-\\>", "<cmd>lua _POWERSHELL_TOGGLE()<CR>", {noremap = true, silent = true})
 
