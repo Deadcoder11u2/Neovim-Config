@@ -53,8 +53,11 @@ Plug 'Shatur/neovim-session-manager'
 Plug 'nvim-telescope/telescope-ui-select.nvim'
 Plug 'ellisonleao/gruvbox.nvim'
 Plug 'sainnhe/gruvbox-material'
-Plug 'hkupty/nvimux'
 Plug 'tpope/vim-commentary'
+
+
+Plug 'L3MON4D3/LuaSnip'
+Plug 'sbdchd/neoformat'
 call plug#end()
 
 
@@ -187,21 +190,16 @@ let mapleader=","
 nmap <leader>$s <C-w>s<C-w>j:terminal<CR>:set nonumber<CR><S-a>
 nmap <leader>$v <C-w>v<C-w>l:terminal<CR>:set nonumber<CR><S-a>
 nmap <leader>q <Cmd>NERDTreeToggle<CR>
-nmap \\ <leader>q
 nmap <leader>w :TagbarToggle<CR>
-nmap \| <leader>w
 nmap <leader>ee :Colors<CR>
 nmap <leader>ea :AirlineTheme
-nmap <leader>r :so ~/.config/nvim/init.vim<CR>
 nmap <leader>t :call TrimWhitespace()<CR>
-nmap <leader>p <Plug>(pydocstring)
-nmap <leader>s :Rg<CR>
 nmap <leader>f :Telescope find_files<CR>
 nmap <leader>h :RainbowParentheses!!<CR>
 nmap <leader>l :Limelight!!<CR>
 nnoremap <leader>mm :lua require('material.functions').toggle_style()<CR>
 autocmd FileType python nmap <leader>x :0 , $!~/.config/nvim/env/bin/python -m yapf<CR>
-nmap <silent> <leader><leader> :noh<CR>
+nmap <leader><leader> :noh<CR>
 nmap <Tab> :bnext<CR>
 nmap <S-Tab> :bprevious<CR>
 nmap <leader>c :bdelete!<CR>
@@ -234,13 +232,12 @@ xnoremap <C-_> <Cmd> Commentary<CR>
 
 set termguicolors
 lua << EOF
-
 require "user.options"
 require "user.keymaps"
 require "user.plugins"
 require "user.cmp"
 require "user.lsp"
-
+require "user.customls"
 require("bufferline").setup{}
 local status_ok, telescope = pcall(require, "telescope")
 local actions = require "telescope.actions"
@@ -400,14 +397,7 @@ require('session_manager').setup({
   autosave_only_in_session = false, -- Always autosaves session. If true, only autosaves after a session is active.
   max_path_length = 80,  -- Shorten the display path if length exceeds this threshold. Use 0 if don't want to shorten the path at all.
 })
-local nvimux = require('nvimux')
-nvimux.setup{
-  config = {
-    prefix = '<C-a>',
-  },
-  bindings = {
-    {{'n', 'v', 'i', 't'}, 's', nvimux.commands.horizontal_split},
-    {{'n', 'v', 'i', 't'}, 'v', nvimux.commands.vertical_split},
-  }
-}
+
+
+
 EOF

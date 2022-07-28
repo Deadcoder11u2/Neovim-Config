@@ -21,7 +21,6 @@ dashboard.section.buttons.val = {
 	dashboard.button("c", "  Configuration", ":e ~/.config/nvim/init.lua <CR>"),
 	dashboard.button("q", "  Quit Neovim", ":qa<CR>"),
 }
-sdasdfadf
 local function footer()
 -- NOTE: requires the fortune-mod package to work
 	-- local handle = io.popen("fortune")
