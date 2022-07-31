@@ -58,6 +58,7 @@ Plug 'tpope/vim-commentary'
 
 Plug 'L3MON4D3/LuaSnip'
 Plug 'sbdchd/neoformat'
+Plug 'djoshea/vim-autoread'
 call plug#end()
 
 
@@ -204,6 +205,7 @@ nmap <Tab> :bnext<CR>
 nmap <S-Tab> :bprevious<CR>
 nmap <leader>c :bdelete!<CR>
 nmap <C-BS> <C-w>
+nmap <leader>r :so ~/AppData/Local/nvim/init.vim<CR>
 nmap <C-h> <C-w>
 
 nnoremap <leader>g <Cmd>Telescope harpoon marks<CR>
@@ -221,14 +223,13 @@ nnoremap gr <Cmd>lua vim.lsp.buf.references()<CR>
 nnoremap gD <Cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap gi <Cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <leader>o <Cmd>lua vim.lsp.buf.code_action()<CR>
-nnoremap <A-3> <Cmd>SessionManager save_current_session<CR>
-nnoremap <A-2> <Cmd>SessionManager load_session<CR>
-nnoremap <A-1> <Cmd>SessionManager delete_session<CR>
-nnoremap <C-_> <Cmd>Commentary<CR>
+nnoremap <leader>3 <Cmd>SessionManager save_current_session<CR>
+nnoremap <leader>2 <Cmd>SessionManager load_session<CR>
+nnoremap <leader>1 <Cmd>SessionManager delete_session<CR>
+nnoremap <C-/> <Cmd>Commentary<CR>
 
 
 xnoremap <C-_> <Cmd> Commentary<CR>
-
 
 set termguicolors
 lua << EOF
@@ -397,7 +398,13 @@ require('session_manager').setup({
   autosave_only_in_session = false, -- Always autosaves session. If true, only autosaves after a session is active.
   max_path_length = 80,  -- Shorten the display path if length exceeds this threshold. Use 0 if don't want to shorten the path at all.
 })
-
-
-
+function map(mode, lhs, rhs, opts)
+    local options = { noremap = true }
+    if opts then
+        options = vim.tbl_extend("force", options, opts)
+    end
+    vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+end
+map("n", "<leader>b", ":lua require(\"user.buildscript\").compileAndRun() <CR>")
 EOF
+
